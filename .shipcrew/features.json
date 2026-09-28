@@ -1,0 +1,152 @@
+{
+  "stack": "Next.js (latest, App Router) + TypeScript + Tailwind CSS + shadcn/ui + Framer Motion (motion) + Zustand (persist to localStorage, seeded from lib/mock/) + sonner + lucide-react + maplibre-gl via react-map-gl/maplibre with a keyless OpenFreeMap style + Geist font + one Playwright smoke spec, deployed on Vercel. No Neon/Drizzle: the PRD puts all data client-side as mocks and lists a database as a non-goal.",
+  "needs_db": false,
+  "data_model": "",
+  "features": [
+    {
+      "id": "F01",
+      "title": "App shell + design tokens + deploy pipeline green (Covers: Next.js App Router, Tailwind/shadcn tokens (brand color #00A86B, Geist font), a Zustand persist store skeleton seeded from lib/mock/, formatFCFA, sonner, /login splash, bottom nav and sidebar layouts, stub pages for Explorer and Compte, and a Vercel deploy.)",
+      "acceptance": [
+        "AC1: Visiting /login shows a splash with a \"Continuer\" button. Clicking it lands on /.",
+        "AC2: At a 390px viewport, a bottom nav shows Accueil, Explorer, Activité, Wallet and Compte. At 1280px, a left sidebar and a top bar (logo, search field, bell, avatar) replace it. All 5 tabs can be reached in both layouts. The active tab has a filled icon and a bold label, so it isn't marked by colour alone.",
+        "AC3: Going to any tab and pressing browser back returns to the previous tab.",
+        "AC4: Visiting /account shows \"Abed-Négo\", \"Utilisateur Gold\", \"+229 97 12 34 56\" and a \"Réinitialiser la démo\" button. Clicking the button clears localStorage, restores the seed data (wallet 125 500 FCFA, 2 450 pts) and shows a toast.",
+        "AC5: The production Vercel URL returns 200. The Playwright smoke spec (visit /, see \"Bonjour Abed\") passes in CI or locally. Each later feature adds its demo step to this spec."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F02",
+      "title": "Home",
+      "acceptance": [
+        "AC1: Visiting / shows \"Bonjour Abed 👋\", \"📍 Cotonou\", a bell with an unread-count badge, an avatar, \"Que voulez-vous faire ?\" and a big \"Où allez-vous ?\" card.",
+        "AC2: The services grid shows 8 tiles: Se déplacer, Manger, Courses, Envoyer, Gaz, Gozem Money, Billetterie, Crédit. Each tile has an icon, a name and a short description. Tapping Billetterie, Crédit, Courses or Gaz opens a \"Bientôt disponible\" sheet.",
+        "AC3: Tapping \"Où allez-vous ?\" or \"Se déplacer\" navigates to /ride/search. Tapping \"Manger\" navigates to /food.",
+        "AC4: Tapping the Maison quick action goes straight to /ride/options with \"Vers Maison\" in the sheet header.",
+        "AC5: The promo carousel shows 4 cards and can be scrolled horizontally."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F03",
+      "title": "Ride search → vehicle options → confirm",
+      "acceptance": [
+        "AC1: Visiting /ride/search shows a full-screen MapLibre map centred on Cotonou, or a tinted background if tiles fail. The Destination input is autofocused, and chips for Maison, Travail and Lieu récent are shown.",
+        "AC2: Typing \"aeroport\" (no accent) lists \"Aéroport International de Cotonou\" first, with the subtitle \"Cadjehoun\". Typing \"zzzz\" shows an empty-result message.",
+        "AC3: Selecting the airport opens /ride/options. The map shows a route polyline and idle vehicles. The sheet reads \"Vers Aéroport de Cotonou · 12 min · 4.8 km\" and lists: Zem 1 500 FCFA / 4 min; Tricycle 2 000 FCFA / 7 min; Taxi 3 000 FCFA / 9 min; Gozem Comfort 4 500 FCFA / 10 min. Selecting Taxi changes the price shown under \"Prix estimé … Prix garanti*\" to 3 000 FCFA.",
+        "AC4: \"⚙ Options\" opens a sheet with Maintenant (selected), Aujourd'hui, Demain and Choisir une date (native date/time inputs). \"+ Ajouter un arrêt\" adds a stop, which raises the displayed price and ETA. The maximum is 2 stops.",
+        "AC5: The CTA leads to /ride/confirm. It shows \"Confirmer votre trajet\", Ma position → Aéroport, Zem, 1 500 FCFA, the default payment method Gozem Money, and a \"Confirmer le trajet\" button that leads to /ride/matching."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F04",
+      "title": "Matching + live tracking (hero screen)",
+      "acceptance": [
+        "AC1: /ride/matching shows a radar pulse and \"Recherche d'un chauffeur...\". After about 1.5 s it shows \"Recherche de chauffeurs à proximité\". After about 3 s it shows \"Chauffeur trouvé ✓\" with the card \"Koffi A. ⭐ 4.9 · 1 284 trajets · Honda Wave · AB 1234 RB\". \"Annuler\" during the search returns to options.",
+        "AC2: After the driver is found, the page goes to /ride/tracking. The sheet reads \"Koffi arrive dans 3 min\". With no user interaction, the driver marker's screen position changes at least 3 times in 6 s, and it rotates to face its heading.",
+        "AC3: The ETA and distance numbers go down over time. Without any user input, the status moves through \"Votre chauffeur est arrivé\", then \"En route vers Aéroport … · arrivée HH:MM\", then completion, which navigates to /ride/complete.",
+        "AC4: \"Simuler l'arrivée\" jumps straight to /ride/complete. Message opens a chat sheet with canned driver replies. Appeler opens a call sheet with a running timer.",
+        "AC5: Reloading /ride/tracking mid-trip keeps the same driver and phase, because the store is persisted."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F05",
+      "title": "Safety center + share trip",
+      "acceptance": [
+        "AC1: On tracking, \"🛡 Sécurité\" opens the \"Votre sécurité\" panel with ✓ GPS, ✓ Chauffeur identifié, ✓ Véhicule identifié, and the actions Partager mon trajet, Contacter un proche, Assistance and Urgence.",
+        "AC2: Partager mon trajet → Copier le lien puts text containing \"gozem.app/t/8K92X\" on the clipboard and shows the toast \"Trajet partagé ✓\". The WhatsApp option opens a wa.me link with the prefilled message.",
+        "AC3: Urgence shows a confirmation dialog. Confirming shows \"Alerte envoyée\" with a countdown and an \"Annuler\" button."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F06",
+      "title": "Ride completion, rating, tip, receipt + side effects",
+      "acceptance": [
+        "AC1: /ride/complete shows \"Vous êtes arrivé 🎉\", 1 500 FCFA and \"Payé avec Gozem Money\". A receipt shows Course 1 300 + Frais 200 = 1 500 FCFA with the date and time.",
+        "AC2: Tapping the 5th star, the tags Ponctuel and Sympathique, and tip 500 highlights each selection. Télécharger shows a toast.",
+        "AC3: \"Terminer\" navigates to /. The bell badge count has gone up by 1.",
+        "AC4: After Terminer and a page reload: /wallet shows 125 500 − 1 500 − 500 = 123 500 FCFA; /gowin shows 2 500 pts; /activity lists the airport ride under \"Aujourd'hui\"."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F07",
+      "title": "Food: browse, restaurant, cart",
+      "acceptance": [
+        "AC1: /food shows \"Que voulez-vous manger ?\", a search field, category chips (Burgers, Pizza, Poulet, Asiatique, Healthy, Desserts) and at least 8 restaurant cards with image, rating, time, fee and distance. This includes Burger House and Chez Maman Bénin. Tapping \"Burgers\" hides Chez Maman Bénin.",
+        "AC2: /food/burger-house has sticky section tabs (Populaire, Burgers, Menus, Boissons, Desserts). Tapping a tab scrolls to that section.",
+        "AC3: Adding Classic Burger ×2 and Coca ×2 with the steppers shows the toast \"Ajouté au panier ✓\". The cart sheet shows subtotal 8 000 FCFA, delivery 1 000 FCFA and total 9 000 FCFA.",
+        "AC4: The cart survives a page reload."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F08",
+      "title": "Group order (\"Commander ensemble\")",
+      "acceptance": [
+        "AC1: On Burger House, \"👥 Commander ensemble\" opens a form with budget max, date limite, and the payment choices \"Je paie pour tout le monde\" or \"Chacun paie sa part\". Submitting it shows the link gozem.app/group/X92K with Copier and Partager buttons. Copier shows a toast.",
+        "AC2: /food/group/X92K shows Abed's items. Within about 6 s and without any interaction, Aïcha and then Rodrigue appear and add items. Each person's subtotal updates, and the budget bar fills up.",
+        "AC3: A \"Retour au panier\" control returns to the regular cart, where the total is still 9 000 FCFA."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F09",
+      "title": "Food checkout + order tracking",
+      "acceptance": [
+        "AC1: /food/checkout shows the address \"Maison (Abomey-Calavi)\", payment Gozem Money and a total of 9 000 FCFA. \"Payer\" shows a processing state for about 1.2 s, then an animated success checkmark and the toast \"Paiement réussi ✓\".",
+        "AC2: The page then goes to /food/order/[id]. Its timeline moves on its own through Restaurant confirme → Préparation → Coursier assigné → En livraison → Livré.",
+        "AC3: Starting from the F06 end state, the wallet shows 114 500 FCFA afterwards. /activity lists the Burger House order, and the bell badge count goes up.",
+        "AC4: If the wallet balance is below the total, \"Payer\" shows an insufficient-funds error and nothing is debited."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F10",
+      "title": "Wallet, Activity, GoWin, Notifications (demo step 13)",
+      "acceptance": [
+        "AC1: /wallet shows the balance, which the eye toggle can hide and show again. It has the actions Envoyer, Recevoir (QR + number sheet), Payer, Recharger and Retirer. Payer, Recharger and Retirer at least open a sheet with a toast. The transaction list shows the ride and food debits at the top.",
+        "AC2: /activity has the tabs Tout, Trajets, Commandes, Livraisons and Paiements, with entries grouped under Aujourd'hui, Hier and earlier. \"Trajets\" shows only rides. A tab with no entries shows an empty state. Tapping an entry opens /activity/[id] with a receipt-style detail.",
+        "AC3: /gowin shows the points total, the Gold level and a progress bar. Redeeming \"500 pts → 500 FCFA de réduction\" subtracts 500 pts, shows a toast and adds an entry to the points history.",
+        "AC4: /notifications lists the ride and order notifications as unread. \"Tout marquer comme lu\" clears the bell badge on /."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F11",
+      "title": "Scheduled ride + wallet transfer (secondary script)",
+      "acceptance": [
+        "AC1: Home \"Réserver un trajet\" → Demain, 07:00 → Maison → Aéroport → confirm shows \"Trajet programmé ✓ Demain à 07:00\" and \"✓ Chauffeur assigné avant votre départ\".",
+        "AC2: /activity shows that ride under \"À venir\". Cancelling it removes it and shows a toast.",
+        "AC3: /wallet/send rejects a number that isn't in +229 format. For a valid number it then asks for the amount 10 000 and a message. The confirmation reads \"Envoyer 10 000 FCFA à Koffi A.\". Any 4-digit PIN leads to success, and the balance drops by 10 000.",
+        "AC4: An amount above the balance shows an insufficient-funds error at the PIN step, and the balance stays the same."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F12",
+      "title": "Parcel delivery (secondary script)",
+      "acceptance": [
+        "AC1: Home \"Envoyer\" → /delivery form with retrait, destinataire nom/téléphone, adresse, Moto/Voiture and description. Submitting it shows a price of 1 500 FCFA and a \"Commander un coursier\" button.",
+        "AC2: Ordering shows \"Coursier Jean assigné\" and goes to /delivery/tracking. This page reuses the tracking map with a moving marker and the timeline ✓ Commande créée ✓ Coursier assigné ✓ Colis récupéré ● En livraison ○ Livré, for Colis #GZ-2841.",
+        "AC3: The timeline reaches \"Livré\" on its own. The wallet is debited 1 500 FCFA, and /activity → Livraisons lists #GZ-2841."
+      ],
+      "passes": false,
+      "attempts": 0
+    }
+  ]
+}

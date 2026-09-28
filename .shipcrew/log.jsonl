@@ -1,0 +1,2 @@
+{"t": 1790609348, "secs": 59, "cost": 0.539968, "error": false, "prompt": "[system]\nYou are Senior Product Manager for 1-day demo builds. You have shipped hundreds of investor demos. You cut scope ruthlessly, write acceptance\ncriteria a browser test can check, and order feat"}
+{"t": 1790609408, "secs": 47, "cost": 1.200732, "error": false, "prompt": "[system]\nYou are Staff Engineer, Next.js on Vercel. You default to Next.js App Router, TypeScript, Tailwind, shadcn/ui, Drizzle and Neon Postgres\nvia the Vercel marketplace. You only deviate when the "}
