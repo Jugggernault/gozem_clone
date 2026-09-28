@@ -16,7 +16,7 @@ test("F01: login splash → Continuer → home", async ({ page }) => {
   await page.goto("/login");
   await page.getByRole("link", { name: "Continuer" }).click();
   await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByText("Bonjour Abed")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Bonjour Abed/ })).toBeVisible();
 });
 
 test("F01: mobile bottom nav reaches all tabs, back works", async ({ page }) => {
@@ -93,4 +93,15 @@ test("F04–F06: matching → tracking → simulate arrival → Terminer", async
   await expect(page.getByRole("heading", { name: "Vous êtes arrivé 🎉" })).toBeVisible();
   await page.getByRole("button", { name: "Terminer" }).click();
   await expect(page).toHaveURL(/\/$/);
+});
+
+test("F10/F11: wallet balance, transfer 10 000 to Koffi A.", async ({ page }) => {
+  await page.goto("/wallet");
+  await expect(page.getByTestId("wallet-balance")).toContainText(/\d/);
+  await page.getByRole("link", { name: "Envoyer" }).click();
+  await page.getByRole("textbox", { name: "Numéro du destinataire" }).fill("+229 96 11 22 33");
+  await page.getByRole("button", { name: "Continuer" }).click();
+  await page.getByRole("textbox", { name: "Montant (FCFA)" }).fill("10000");
+  await page.getByRole("button", { name: "Continuer" }).click();
+  await expect(page.getByText(/^Envoyer 10\s000\sFCFA à Koffi A\.$/)).toBeVisible();
 });
