@@ -40,3 +40,48 @@
 │                                                                              │
 ╰──────────────────────────────────────────────────────────────────────────────╯
 
+╭────────────────────────── ✅ Flow Method Completed ──────────────────────────╮
+│                                                                              │
+│  Method: design                                                              │
+│  Status: Completed                                                           │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭─────────────────────────── 🔄 Flow Method Running ───────────────────────────╮
+│                                                                              │
+│  Method: scaffold                                                            │
+│  Status: Running                                                             │
+│                                                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/asyncio/events.py:89: RuntimeWarning: The executor did not finishing joining its threads within 300 seconds.
+  self._context.run(self._callback, *self._args)
+Exception ignored on threading shutdown:
+Traceback (most recent call last):
+  File "/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/threading.py", line 1537, in _shutdown
+    atexit_call()
+  File "/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/threading.py", line 1508, in <lambda>
+    _threading_atexits.append(lambda: func(*arg, **kwargs))
+  File "/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/concurrent/futures/thread.py", line 31, in _python_exit
+    t.join()
+  File "/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/threading.py", line 1095, in join
+    self._handle.join(timeout)
+  File "/home/jugggernault/Work/Projects/shipcrew/crew/.venv/lib/python3.13/site-packages/crewai/telemetry/telemetry.py", line 200, in handler
+    crewai_event_bus.emit(self, event_class())
+  File "/home/jugggernault/Work/Projects/shipcrew/crew/.venv/lib/python3.13/site-packages/pydantic/main.py", line 250, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+  File "/home/jugggernault/Work/Projects/shipcrew/crew/.venv/lib/python3.13/site-packages/crewai/events/base_events.py", line 82, in <lambda>
+    event_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+  File "/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/uuid.py", line 716, in uuid4
+    return UUID(bytes=os.urandom(16), version=4)
+  File "/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/uuid.py", line 225, in __init__
+    object.__setattr__(self, 'int', int)
+  File "/home/jugggernault/Work/Projects/shipcrew/crew/.venv/lib/python3.13/site-packages/crewai/telemetry/telemetry.py", line 200, in handler
+    crewai_event_bus.emit(self, event_class())
+  File "/home/jugggernault/Work/Projects/shipcrew/crew/.venv/lib/python3.13/site-packages/crewai/events/event_bus.py", line 633, in emit
+    sync_future = self._sync_executor.submit(
+  File "/home/jugggernault/.local/share/uv/python/cpython-3.13.12-linux-x86_64-gnu/lib/python3.13/concurrent/futures/thread.py", line 171, in submit
+    raise RuntimeError('cannot schedule new futures after shutdown')
+RuntimeError: cannot schedule new futures after shutdown

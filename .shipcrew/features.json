@@ -13,8 +13,8 @@
         "AC4: Visiting /account shows \"Abed-Négo\", \"Utilisateur Gold\", \"+229 97 12 34 56\" and a \"Réinitialiser la démo\" button. Clicking the button clears localStorage, restores the seed data (wallet 125 500 FCFA, 2 450 pts) and shows a toast.",
         "AC5: The production Vercel URL returns 200. The Playwright smoke spec (visit /, see \"Bonjour Abed\") passes in CI or locally. Each later feature adds its demo step to this spec."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F02",
@@ -144,6 +144,56 @@
         "AC1: Home \"Envoyer\" → /delivery form with retrait, destinataire nom/téléphone, adresse, Moto/Voiture and description. Submitting it shows a price of 1 500 FCFA and a \"Commander un coursier\" button.",
         "AC2: Ordering shows \"Coursier Jean assigné\" and goes to /delivery/tracking. This page reuses the tracking map with a moving marker and the timeline ✓ Commande créée ✓ Coursier assigné ✓ Colis récupéré ● En livraison ○ Livré, for Colis #GZ-2841.",
         "AC3: The timeline reaches \"Livré\" on its own. The wallet is debited 1 500 FCFA, and /activity → Livraisons lists #GZ-2841."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F13",
+      "title": "In-trip multi-stop + change destination, promotions page with working -20% promo, Explorer global search",
+      "acceptance": [
+        "AC1: On /ride/tracking, '+ Ajouter un arrêt' adds up to 2 stops (e.g. Fidjrossè, Erevan); price and ETA shown in the sheet update and the route redraws. A 3rd stop is refused with a message.",
+        "AC2: 'Modifier destination' → choose Akpakpa → sheet shows 'Nouveau prix' with '+500 FCFA' and 'Confirmer'; after confirm the destination label reads Akpakpa.",
+        "AC3: /promotions ('Offres pour vous') lists ≥3 offers; activating '-20% sur votre prochaine course' then opening ride options to the airport shows Zem at 1 200 FCFA with a promo tag.",
+        "AC4: Explorer tab search: typing 'burger' shows categorised results with headings Restaurants (Burger House) and Produits/Services where relevant; typing 'aero' shows a Lieux result that opens ride options."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F14",
+      "title": "Account subpages + help center + UX states",
+      "acceptance": [
+        "AC1: /account links to Informations personnelles (editing name persists after reload), Adresses (list Maison/Travail/Université; '+ Nouvelle adresse' form saves and shows toast 'Adresse enregistrée ✓'), Moyens de paiement (radio Gozem Money/Cash/Mobile Money, choice persists and is preselected in ride confirm), Sécurité (contacts de confiance), Langue (Français selected, others 'Bientôt').",
+        "AC2: /help shows 'Comment pouvons-nous vous aider ?', search, categories Trajet/Commande/Paiement/Compte/Sécurité and quick actions; 'Contacter le support' opens a mock chat that replies within 2 s.",
+        "AC3: A demo toggle 'Simuler hors connexion' in account shows the banner 'Vous êtes hors connexion.' on all pages; a toggle 'Simuler une erreur' makes /food show 'Une erreur est survenue.' with a 'Réessayer' button that recovers.",
+        "AC4: /food and /activity show skeletons while mock services load; an Activité tab with no entries shows an empty state message.",
+        "AC5: /manifest.webmanifest (or manifest.json) served with name 'Gozem Next', theme_color #00A86B, display standalone and icons."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F15",
+      "title": "Gaz, Courses (shopping) and QR pay",
+      "acceptance": [
+        "AC1: /gas shows 'Votre bouteille est vide ?', sizes 6 kg / 12,5 kg / Petite bouteille, Bouteille neuve vs Recharge with distinct prices, livraison fee and ETA '30-45 min'; ordering debits the wallet and shows a tracking timeline that auto-advances to Livré.",
+        "AC2: /shopping shows categories (Épicerie, Boissons, Hygiène, Maison, Téléphones, Électronique) filtering product cards (Riz 5kg 4 500 FCFA, Huile 1L 1 800 FCFA, Lait 1 200 FCFA…); adding items and checking out debits the wallet and adds an Activité entry.",
+        "AC3: /wallet/pay 'Scanner un QR' shows an animated viewfinder; after ~2 s shows 'Burger House · 8 500 FCFA · Payer' → PIN → success; balance drops by 8 500."
+      ],
+      "passes": false,
+      "attempts": 0
+    },
+    {
+      "id": "F16",
+      "title": "Gozem Assistant (realistic scripted intent assistant)",
+      "acceptance": [
+        "AC1: A '✨ Gozem Assistant' button is reachable from home (and desktop top bar) and opens /assistant chat with suggestion chips.",
+        "AC2: 'Je veux aller à l'aéroport demain à 7h' → typing indicator then a streamed reply with a booking card (Maison → Aéroport, Demain 07:00, Zem 1 500 FCFA); its button opens the scheduled-ride confirmation prefilled.",
+        "AC3: 'Je veux envoyer un colis à Calavi' → reply with a card that opens /delivery with the address prefilled to Calavi.",
+        "AC4: 'Quel restaurant livre près de moi ?' → reply with ≥3 restaurant cards linking to their pages.",
+        "AC5: 'Combien ai-je dépensé cette semaine ?' → reply with a total computed from the actual store transactions (changes after a new payment) and a per-category breakdown.",
+        "AC6: Unrecognised input gets a helpful fallback reply with suggestion chips. Input matching is accent/case-insensitive."
       ],
       "passes": false,
       "attempts": 0
