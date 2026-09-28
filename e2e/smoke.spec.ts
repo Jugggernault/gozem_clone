@@ -65,3 +65,13 @@ test("F01: account shows profile and resets the demo", async ({ page }) => {
   await expect(page.getByText("125 500 FCFA").first()).toBeVisible();
   await expect(page.getByText("2 450 pts").first()).toBeVisible();
 });
+
+test("F04–F06: matching → tracking → simulate arrival → Terminer", async ({ page }) => {
+  await page.goto("/ride/matching");
+  await expect(page.getByText("Chauffeur trouvé ✓")).toBeVisible({ timeout: 5000 });
+  await expect(page).toHaveURL(/\/ride\/tracking$/, { timeout: 6000 });
+  await page.getByRole("button", { name: "Simuler l'arrivée" }).click();
+  await expect(page.getByRole("heading", { name: "Vous êtes arrivé 🎉" })).toBeVisible();
+  await page.getByRole("button", { name: "Terminer" }).click();
+  await expect(page).toHaveURL(/\/$/);
+});
