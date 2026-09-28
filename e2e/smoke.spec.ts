@@ -46,6 +46,15 @@ test("F01: desktop sidebar + top bar", async ({ page }) => {
   await expect(page).toHaveURL(/\/activity$/);
 });
 
+test("F12/F15: errands screens render", async ({ page }) => {
+  await page.goto("/delivery?to=ganhi");
+  await expect(page.getByLabel("Adresse de livraison")).toHaveValue("Ganhi");
+  await page.goto("/gas");
+  await expect(page.getByText("Votre bouteille est vide ?")).toBeVisible();
+  await page.goto("/shopping");
+  await expect(page.getByRole("tab", { name: "Épicerie" })).toBeVisible();
+});
+
 test("F01: account shows profile and resets the demo", async ({ page }) => {
   await page.goto("/account");
   await expect(page.getByText("Abed-Négo")).toBeVisible();

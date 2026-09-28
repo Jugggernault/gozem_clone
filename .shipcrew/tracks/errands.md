@@ -1,0 +1,3 @@
+errands: F12 done: /delivery form with ?to= prefill, 1 500 FCFA quote, "Coursier Jean assigné", /delivery/tracking with the MapView moving marker and a timeline that advances to Livré on its own, wallet -1500, activity "Colis #GZ-2841" (type delivery).
+F15 AC1-AC2 done: /gas (sizes, Recharge vs Bouteille neuve, livraison 500, 30-45 min) and /shopping (category chips, cart, checkout) both debit through purchase() and show the ErrandTracking timeline up to Livré. Shared UI is in components/errands/{Timeline,ErrandTracking}.tsx.
+Tests: e2e/errands.spec.ts passes 3/3, plus a smoke step. No store or mock changes. F15 AC3 (QR pay) was out of scope.
