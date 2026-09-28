@@ -1,0 +1,3 @@
+ride-booking: F03 done: /ride/search (map, autofocused Destination, Maison/Travail/Lieu récent chips, accent-insensitive search, empty state), /ride/options (route + idle vehicles, 4 vehicle quotes, ⚙ Options schedule sheet, max 2 stops raising price/ETA, `?to=<placeId>` deep link), /ride/confirm (itinerary, vehicle, price, payment → setPhase("searching") → /ride/matching).
+F13 AC3 done: /promotions "Offres pour vous" lists PROMOS; Activer on RIDE20 sets ride.activePromoId → /ride/options shows Zem 1 200 FCFA with "Promo -20%" tag + struck original price.
+Tests: e2e/ride-booking.spec.ts (3/3) + smoke step. Gotcha: selectRideQuote returns a fresh object, so use useShallow(selectRideQuote) or you get a render loop.

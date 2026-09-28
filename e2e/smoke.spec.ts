@@ -46,6 +46,15 @@ test("F01: desktop sidebar + top bar", async ({ page }) => {
   await expect(page).toHaveURL(/\/activity$/);
 });
 
+test("F03: search aeroport → options → confirm", async ({ page }) => {
+  await page.goto("/ride/search");
+  await page.getByRole("textbox", { name: "Destination" }).fill("aeroport");
+  await page.getByRole("list", { name: "Résultats" }).getByRole("button").first().click();
+  await expect(page.getByRole("heading", { name: "Vers Aéroport de Cotonou · 12 min · 4.8 km" })).toBeVisible();
+  await page.getByRole("button", { name: /^Choisir / }).click();
+  await expect(page.getByRole("heading", { name: "Confirmer votre trajet" })).toBeVisible();
+});
+
 test("F01: account shows profile and resets the demo", async ({ page }) => {
   await page.goto("/account");
   await expect(page.getByText("Abed-Négo")).toBeVisible();

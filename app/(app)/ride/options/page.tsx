@@ -1,5 +1,7 @@
-import { StubPage } from "@/components/StubPage";
+import { RideOptions } from "./RideOptions";
 
-export default function Page() {
-  return <StubPage title="Choisir un véhicule" />;
+/** /ride/options[?to=<placeId>] — `to` starts a new draft toward that place (used by Explorer / promos links). */
+export default async function Page({ searchParams }: { searchParams: Promise<{ to?: string }> }) {
+  const { to } = await searchParams;
+  return <RideOptions to={to} />;
 }
