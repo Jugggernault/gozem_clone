@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowRight, Briefcase, CircleHelp, House, Plane, Search } from "lucide-react";
+import { ArrowRight, Briefcase, CalendarClock, CircleHelp, House, Package, Plane, Search } from "lucide-react";
 import { Page } from "@/components/Page";
 import { ComingSoon } from "@/components/ComingSoon";
 import { BellButton } from "@/components/shell/BellButton";
@@ -15,6 +15,10 @@ const QUICK = [
   { placeId: "maison", label: "Maison", icon: House },
   { placeId: "travail", label: "Travail", icon: Briefcase },
   { placeId: "aeroport", label: "Aéroport", icon: Plane },
+];
+const QUICK_LINKS = [
+  { href: "/ride/schedule", label: "Réserver un trajet", icon: CalendarClock },
+  { href: "/delivery", label: "Envoyer un colis", icon: Package },
 ];
 
 export default function Home() {
@@ -64,6 +68,15 @@ export default function Home() {
           >
             <Icon className="size-4 text-primary-dark" aria-hidden /> {label}
           </button>
+        ))}
+        {QUICK_LINKS.map(({ href, label, icon: Icon }) => (
+          <Link
+            key={href}
+            href={href}
+            className="flex h-touch-target shrink-0 items-center gap-sm rounded-full bg-surface px-md text-label-md text-ink shadow-card hover:bg-surface-sunken"
+          >
+            <Icon className="size-4 text-primary-dark" aria-hidden /> {label}
+          </Link>
         ))}
       </div>
 

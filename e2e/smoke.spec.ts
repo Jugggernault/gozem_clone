@@ -122,3 +122,24 @@ test("F02/F16: home → assistant books the airport ride", async ({ page }) => {
   await page.getByRole("button", { name: "Je veux aller à l'aéroport demain à 7h" }).click();
   await expect(page.getByTestId("assistant-card-ride")).toContainText("Demain 07:00");
 });
+
+test("F14 AC3/AC4 + F11: /food error → Réessayer, skeletons, home schedule link", async ({ page }) => {
+  await page.goto("/account");
+  await page.getByRole("switch", { name: "Simuler une erreur" }).click();
+  await page.goto("/food");
+  await expect(page.getByTestId("food-skeleton")).toBeVisible();
+  await expect(page.getByText("Une erreur est survenue.")).toBeVisible();
+  await page.goto("/account");
+  await page.getByRole("switch", { name: "Simuler une erreur" }).click();
+  await expect(page.getByRole("switch", { name: "Simuler une erreur" })).toHaveAttribute("aria-checked", "false");
+  await page.goBack();
+  await expect(page).toHaveURL(/\/food$/);
+  const retry = page.getByRole("button", { name: "Réessayer" });
+  if (await retry.isVisible()) await retry.click();
+  await expect(page.getByTestId("restaurant-card").first()).toBeVisible();
+  await page.goto("/activity");
+  await expect(page.getByTestId("activity-skeleton")).toBeVisible();
+  await page.goto("/");
+  await page.getByRole("link", { name: "Réserver un trajet" }).click();
+  await expect(page).toHaveURL(/\/ride\/schedule$/);
+});

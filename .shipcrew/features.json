@@ -26,8 +26,8 @@
         "AC4: Tapping the Maison quick action goes straight to /ride/options with \"Vers Maison\" in the sheet header.",
         "AC5: The promo carousel shows 4 cards and can be scrolled horizontally."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F03",
@@ -39,8 +39,8 @@
         "AC4: \"⚙ Options\" opens a sheet with Maintenant (selected), Aujourd'hui, Demain and Choisir une date (native date/time inputs). \"+ Ajouter un arrêt\" adds a stop, which raises the displayed price and ETA. The maximum is 2 stops.",
         "AC5: The CTA leads to /ride/confirm. It shows \"Confirmer votre trajet\", Ma position → Aéroport, Zem, 1 500 FCFA, the default payment method Gozem Money, and a \"Confirmer le trajet\" button that leads to /ride/matching."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F04",
@@ -52,8 +52,8 @@
         "AC4: \"Simuler l'arrivée\" jumps straight to /ride/complete. Message opens a chat sheet with canned driver replies. Appeler opens a call sheet with a running timer.",
         "AC5: Reloading /ride/tracking mid-trip keeps the same driver and phase, because the store is persisted."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F05",
@@ -63,8 +63,8 @@
         "AC2: Partager mon trajet → Copier le lien puts text containing \"gozem.app/t/8K92X\" on the clipboard and shows the toast \"Trajet partagé ✓\". The WhatsApp option opens a wa.me link with the prefilled message.",
         "AC3: Urgence shows a confirmation dialog. Confirming shows \"Alerte envoyée\" with a countdown and an \"Annuler\" button."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F06",
@@ -75,8 +75,8 @@
         "AC3: \"Terminer\" navigates to /. The bell badge count has gone up by 1.",
         "AC4: After Terminer and a page reload: /wallet shows 125 500 − 1 500 − 500 = 123 500 FCFA; /gowin shows 2 500 pts; /activity lists the airport ride under \"Aujourd'hui\"."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F07",
@@ -87,8 +87,8 @@
         "AC3: Adding Classic Burger ×2 and Coca ×2 with the steppers shows the toast \"Ajouté au panier ✓\". The cart sheet shows subtotal 8 000 FCFA, delivery 1 000 FCFA and total 9 000 FCFA.",
         "AC4: The cart survives a page reload."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F08",
@@ -98,8 +98,8 @@
         "AC2: /food/group/X92K shows Abed's items. Within about 6 s and without any interaction, Aïcha and then Rodrigue appear and add items. Each person's subtotal updates, and the budget bar fills up.",
         "AC3: A \"Retour au panier\" control returns to the regular cart, where the total is still 9 000 FCFA."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F09",
@@ -110,8 +110,8 @@
         "AC3: Starting from the F06 end state, the wallet shows 114 500 FCFA afterwards. /activity lists the Burger House order, and the bell badge count goes up.",
         "AC4: If the wallet balance is below the total, \"Payer\" shows an insufficient-funds error and nothing is debited."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F10",
@@ -122,8 +122,8 @@
         "AC3: /gowin shows the points total, the Gold level and a progress bar. Redeeming \"500 pts → 500 FCFA de réduction\" subtracts 500 pts, shows a toast and adds an entry to the points history.",
         "AC4: /notifications lists the ride and order notifications as unread. \"Tout marquer comme lu\" clears the bell badge on /."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F11",
@@ -134,8 +134,8 @@
         "AC3: /wallet/send rejects a number that isn't in +229 format. For a valid number it then asks for the amount 10 000 and a message. The confirmation reads \"Envoyer 10 000 FCFA à Koffi A.\". Any 4-digit PIN leads to success, and the balance drops by 10 000.",
         "AC4: An amount above the balance shows an insufficient-funds error at the PIN step, and the balance stays the same."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F12",
@@ -145,8 +145,8 @@
         "AC2: Ordering shows \"Coursier Jean assigné\" and goes to /delivery/tracking. This page reuses the tracking map with a moving marker and the timeline ✓ Commande créée ✓ Coursier assigné ✓ Colis récupéré ● En livraison ○ Livré, for Colis #GZ-2841.",
         "AC3: The timeline reaches \"Livré\" on its own. The wallet is debited 1 500 FCFA, and /activity → Livraisons lists #GZ-2841."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F13",
@@ -157,8 +157,8 @@
         "AC3: /promotions ('Offres pour vous') lists ≥3 offers; activating '-20% sur votre prochaine course' then opening ride options to the airport shows Zem at 1 200 FCFA with a promo tag.",
         "AC4: Explorer tab search: typing 'burger' shows categorised results with headings Restaurants (Burger House) and Produits/Services where relevant; typing 'aero' shows a Lieux result that opens ride options."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F14",
@@ -170,8 +170,8 @@
         "AC4: /food and /activity show skeletons while mock services load; an Activité tab with no entries shows an empty state message.",
         "AC5: /manifest.webmanifest (or manifest.json) served with name 'Gozem Next', theme_color #00A86B, display standalone and icons."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F15",
@@ -181,8 +181,8 @@
         "AC2: /shopping shows categories (Épicerie, Boissons, Hygiène, Maison, Téléphones, Électronique) filtering product cards (Riz 5kg 4 500 FCFA, Huile 1L 1 800 FCFA, Lait 1 200 FCFA…); adding items and checking out debits the wallet and adds an Activité entry.",
         "AC3: /wallet/pay 'Scanner un QR' shows an animated viewfinder; after ~2 s shows 'Burger House · 8 500 FCFA · Payer' → PIN → success; balance drops by 8 500."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     },
     {
       "id": "F16",
@@ -195,8 +195,8 @@
         "AC5: 'Combien ai-je dépensé cette semaine ?' → reply with a total computed from the actual store transactions (changes after a new payment) and a per-category breakdown.",
         "AC6: Unrecognised input gets a helpful fallback reply with suggestion chips. Input matching is accent/case-insensitive."
       ],
-      "passes": false,
-      "attempts": 0
+      "passes": true,
+      "attempts": 1
     }
   ]
 }

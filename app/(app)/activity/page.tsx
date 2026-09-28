@@ -7,6 +7,9 @@ import { Page } from "@/components/Page";
 import { PageHeader } from "@/components/PageHeader";
 import { Price } from "@/components/Price";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/Skeleton";
+import { ErrorState } from "@/components/States";
+import { useMockService } from "@/lib/hooks/useMockService";
 import { useApp } from "@/lib/store";
 import { ACTIVITY_EMOJI, DATE_GROUPS, dateGroup, dateTimeLabel, formatTime } from "@/lib/money";
 import type { ActivityEntry, ActivityType } from "@/lib/types";
@@ -23,6 +26,7 @@ export default function ActivityPage() {
   const entries = useApp((s) => s.activity.entries);
   const removeActivity = useApp((s) => s.removeActivity);
   const [tab, setTab] = useState<(typeof TABS)[number]["id"]>("all");
+  const svc = useMockService(() => true, [300, 600]);
 
   const visible = entries.filter((e) => tab === "all" || e.type === tab);
   const groups = DATE_GROUPS.map((g) => ({
@@ -48,7 +52,15 @@ export default function ActivityPage() {
         ))}
       </div>
 
-      {groups.length === 0 ? (
+      {svc.status === "loading" ? (
+        <div data-testid="activity-skeleton" aria-busy="true" aria-label="Chargement de l'activité" className="mt-md flex flex-col gap-sm">
+          {Array.from({ length: 4 }, (_, i) => (
+            <Skeleton key={i} className="h-16 w-full rounded-lg" />
+          ))}
+        </div>
+      ) : svc.status === "error" ? (
+        <ErrorState onRetry={svc.retry} />
+      ) : groups.length === 0 ? (
         <div data-testid="activity-empty" className="mt-lg flex flex-col items-center gap-sm rounded-lg bg-surface p-xl text-center shadow-card">
           <Inbox className="size-8 text-muted" aria-hidden />
           <p className="text-h3 text-ink">Rien pour le moment</p>

@@ -4,6 +4,9 @@ import { useState } from "react";
 import { ArrowLeft, Search, Star } from "lucide-react";
 import { Page } from "@/components/Page";
 import { RestaurantImage } from "@/components/food/RestaurantImage";
+import { Skeleton } from "@/components/Skeleton";
+import { ErrorState } from "@/components/States";
+import { useMockService } from "@/lib/hooks/useMockService";
 import { buttonClass } from "@/components/ui/button";
 import { formatFCFA } from "@/lib/format";
 import { FOOD_CATEGORIES, RESTAURANTS } from "@/lib/mock/restaurants";
@@ -13,8 +16,9 @@ import type { FoodCategory } from "@/lib/types";
 export default function FoodPage() {
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<FoodCategory | null>(null);
+  const svc = useMockService(() => RESTAURANTS);
   const nq = normalize(q);
-  const list = RESTAURANTS.filter(
+  const list = (svc.data ?? []).filter(
     (r) => (!cat || r.categories.includes(cat)) && (!nq || normalize(`${r.name} ${r.cuisine} ${r.menu.map((m) => m.name).join(" ")}`).includes(nq)),
   );
 
@@ -45,6 +49,20 @@ export default function FoodPage() {
         ))}
       </div>
 
+      {svc.status === "error" && <ErrorState onRetry={svc.retry} />}
+      {svc.status === "loading" && (
+        <ul className="mt-lg grid gap-md sm:grid-cols-2" data-testid="food-skeleton" aria-busy="true" aria-label="Chargement des restaurants">
+          {Array.from({ length: 4 }, (_, i) => (
+            <li key={i} className="overflow-hidden rounded-lg bg-surface shadow-card">
+              <Skeleton className="aspect-video w-full rounded-none" />
+              <div className="flex flex-col gap-sm p-md">
+                <Skeleton className="h-5 w-2/3" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
       <ul className="mt-lg grid gap-md sm:grid-cols-2">
         {list.map((r) => (
           <li key={r.slug}>
@@ -69,7 +87,7 @@ export default function FoodPage() {
           </li>
         ))}
       </ul>
-      {list.length === 0 && (
+      {svc.status === "ready" && list.length === 0 && (
         <div className="mt-lg rounded-lg border border-border bg-surface p-xl text-center">
           <p className="text-body-lg text-muted">Aucun restaurant ne correspond à votre recherche.</p>
         </div>

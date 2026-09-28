@@ -35,6 +35,7 @@ test("F07 AC1: browse, categories filter", async ({ page }) => {
   await expect(page.getByRole("searchbox", { name: "Rechercher un restaurant" })).toBeVisible();
   for (const c of ["Burgers", "Pizza", "Poulet", "Asiatique", "Healthy", "Desserts"]) await expect(page.getByRole("button", { name: c, exact: true })).toBeVisible();
   const cards = page.getByTestId("restaurant-card");
+  await expect(cards.first()).toBeVisible(); // F14 AC4: skeletons show first while the mock service loads
   expect(await cards.count()).toBeGreaterThanOrEqual(8);
   await expect(cards.filter({ hasText: "Burger House" })).toBeVisible();
   await expect(cards.filter({ hasText: "Chez Maman Bénin" })).toBeVisible();
@@ -94,6 +95,9 @@ test("F08: group order with simulated friends", async ({ page }) => {
   await expect(page.getByTestId("member-aicha")).toContainText(/4\s300/);
   await expect(page.getByTestId("member-rodrigue")).toContainText(/5\s500/);
   expect(parseFloat(await bar.evaluate((el) => (el as HTMLElement).style.width))).toBeGreaterThan(parseFloat(w0));
+  // Friend-activity toasts sit over the bottom CTA and hovering pauses them; let them expire first.
+  await page.mouse.move(0, 0);
+  await expect(page.locator("[data-sonner-toast]")).toHaveCount(0, { timeout: 10000 });
   await page.getByRole("link", { name: "Retour au panier" }).click();
   await expect(page).toHaveURL(/\/food\/burger-house/);
   await expect(page.getByTestId("cart-total")).toHaveText(fcfa(9000));
