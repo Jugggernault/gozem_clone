@@ -1,0 +1,26 @@
+{
+  "pass": false,
+  "failures": [
+    {
+      "feature": "F02",
+      "problem": "Emoji-based icons render as 'NO GLYPH' tofu boxes on this demo host (no emoji font installed: `fc-list | grep -i emoji` is empty). Visible on Home services grid (all 8 tiles), promo carousel cards, 'Bonjour Abed 👋', '📍 Cotonou'. Demo-blocking visually. Fix: render service/vehicle/transaction icons with lucide-react (already a dependency) instead of emoji characters, or ship a local emoji font (e.g. Noto Color Emoji woff2 in public/ via @font-face) as a fallback in --font-sans."
+    },
+    {
+      "feature": "F03",
+      "problem": "Vehicle option icons on /ride/options come from VEHICLES[].emoji (lib/mock/vehicles.ts, rendered in app/(app)/ride/options/RideOptions.tsx:120) and all 4 show 'NO GLYPH' on this host. Same fix as F02 (lucide Bike/Car icons or bundled emoji font)."
+    },
+    {
+      "feature": "F06",
+      "problem": "Heading 'Vous êtes arrivé 🎉' shows a tofu box on this host (no emoji font). Wallet/activity/notification row icons (🍔 🏍️ 🙏 etc.) have the same problem. Covered by the emoji-font fix."
+    }
+  ],
+  "notes": [
+    "Demo script steps 1-13 all pass at 390px in a real browser: exact copy/prices OK (Zem 1 500/4 min, Tricycle 2 000/7 min, Taxi 3 000/9 min, Comfort 4 500/10 min; Koffi A. ⭐ 4.9 · 1 284 trajets · Honda Wave · AB 1234 RB; driver marker moves on its own; 'Trajet partagé ✓' toast; receipt 1 300 + 200 = 1 500; cart 8 000 + 1 000 = 9 000; group X92K with Aïcha and Rodrigue; wallet 125 500 → 123 500 → 114 500; GoWin 2 450 → 2 500; Activité lists ride + order under Aujourd'hui; bell 1 → 4 unread).",
+    "1280px: sidebar + top bar layout and the floating ride panel over a large map both render correctly.",
+    "Console: no app errors. The only errors were 6x net::ERR_NAME_NOT_RESOLVED for images.unsplash.com (transient DNS; the same URLs loaded 200 moments later, and RestaurantImage has an onError fallback). Warnings come only from the OpenFreeMap style (highway-shield filters), which is third-party.",
+    "Playwright: 55/60 passed in the parallel run; the 5 failures (food F07 AC1, F08 group, F04 marker/ETA, F06 completion, smoke F07-F09) all passed on a serial re-run (--workers=1), so they are timing flakes under dev-server compile load. Advise the orchestrator to use workers=1 or a production build for the demo gate. Note: Next 16 refuses a second `next dev` in the same directory, so PORT=3201 could not start while 3200 was up; the suite ran against 3200 via reuseExistingServer.",
+    "Design-lock static audit: no hex colours, no Tailwind palette colours, and no arbitrary radius/spacing in app/ or components/. The only arbitrary values are safe-area insets and Price.tsx text-[0.7em]. Minor: a native horizontal scrollbar shows under the Home quick-action chips at 1280px.",
+    "Minor PRD-vs-AC deviations (not in features.json ACs, not blocking): the Home quick actions show 'Aéroport' instead of 'Favoris'; the rating tag is 'Conduite sûre' instead of 'Conduite agréable'; the tip options have no 'Autre' and there are no Partager/Signaler un problème buttons on the receipt; the share sheet has no SMS option; km use '4.8' on search/options but '4,8' elsewhere; the seeded Gold notification says 2 550 pts to Platinum while GoWin says 2 500.",
+    "On a cold first visit to /ride/search the map was once left as a blank tinted background (no tile .pbf requests). It rendered normally on reload and on later client navigations. Treat it as intermittent, most likely a cold-start effect."
+  ]
+}

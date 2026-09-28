@@ -143,3 +143,13 @@ test("F14 AC3/AC4 + F11: /food error → Réessayer, skeletons, home schedule li
   await page.getByRole("link", { name: "Réserver un trajet" }).click();
   await expect(page).toHaveURL(/\/ride\/schedule$/);
 });
+
+test("QA: emoji render with the bundled color emoji font (no tofu on hosts without one)", async ({ page }) => {
+  await page.goto("/ride/options?to=aeroport");
+  await expect(page.getByTestId("vehicle-zem")).toBeVisible();
+  const loaded = await page.evaluate(async () => {
+    await document.fonts.ready;
+    return [...document.fonts].some((f) => /Noto.?Color.?Emoji/i.test(f.family) && f.status === "loaded");
+  });
+  expect(loaded).toBe(true);
+});

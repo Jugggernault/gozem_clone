@@ -50,3 +50,7 @@ Tests: e2e/ride-trip.spec.ts 9/9 green at PORT=3102. /wallet, /gowin, /activity 
 - Merged 6 track branches (ride-booking, ride-trip, food, money, home-account, errands) into main; the only conflict was e2e/smoke.spec.ts, and both sides' steps were kept.
 - Integration fixes: the home quick actions now include "Réserver un trajet" (/ride/schedule) and "Envoyer un colis" (/delivery). /food uses useMockService, with skeletons, ErrorState and Réessayer (F14 AC3). /activity shows skeletons (F14 AC4). A smoke step was added for these. food.spec now waits past the skeleton and the hover-paused toasts.
 - tsc and eslint (app/components/lib/e2e) are clean and npm run build passes. The full Playwright suite passes 60/60 at PORT=3100 against next start. All 16 features are marked passing; the Vercel part of F01 AC5 was skipped (local only).
+
+## [shipcrew] QA fix
+- QA failures F02/F03/F06 (emoji tofu on hosts with no emoji font): added a self-hosted Noto Color Emoji via next/font/google (`--font-emoji`, preload off, unicode-range subset) as a fallback in `--font-sans`/`--font-mono`. No new dependency, no copy change.
+- New smoke test asserts the emoji font face loads. tsc/eslint clean, `npm run build` OK, full suite 61/61 in parallel against `next start -p 3400`.

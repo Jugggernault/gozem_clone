@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Color_Emoji } from "next/font/google";
 import { Toaster } from "sonner";
 import { CircleCheck } from "lucide-react";
 import { Providers } from "@/components/Providers";
@@ -8,6 +8,8 @@ import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+// Self-hosted emoji fallback: demo hosts without a system emoji font otherwise render tofu boxes.
+const notoEmoji = Noto_Color_Emoji({ variable: "--font-emoji", weight: "400", subsets: ["emoji"], preload: false });
 
 export const metadata: Metadata = {
   title: "Gozem — Se déplacer, manger, payer",
@@ -18,7 +20,7 @@ export const viewport: Viewport = { viewportFit: "cover" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} h-full`}>
+    <html lang="fr" className={`${geistSans.variable} ${geistMono.variable} ${notoEmoji.variable} h-full`}>
       <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
         <Toaster

@@ -27,7 +27,8 @@
         "AC5: The promo carousel shows 4 cards and can be scrolled horizontally."
       ],
       "passes": true,
-      "attempts": 1
+      "attempts": 2,
+      "notes": "QA fix: emoji rendered as tofu on hosts without an emoji font; self-hosted Noto Color Emoji (next/font/google) added as --font-sans/--font-mono fallback."
     },
     {
       "id": "F03",
@@ -40,7 +41,8 @@
         "AC5: The CTA leads to /ride/confirm. It shows \"Confirmer votre trajet\", Ma position → Aéroport, Zem, 1 500 FCFA, the default payment method Gozem Money, and a \"Confirmer le trajet\" button that leads to /ride/matching."
       ],
       "passes": true,
-      "attempts": 1
+      "attempts": 2,
+      "notes": "QA fix: emoji rendered as tofu on hosts without an emoji font; self-hosted Noto Color Emoji (next/font/google) added as --font-sans/--font-mono fallback."
     },
     {
       "id": "F04",
@@ -76,7 +78,8 @@
         "AC4: After Terminer and a page reload: /wallet shows 125 500 − 1 500 − 500 = 123 500 FCFA; /gowin shows 2 500 pts; /activity lists the airport ride under \"Aujourd'hui\"."
       ],
       "passes": true,
-      "attempts": 1
+      "attempts": 2,
+      "notes": "QA fix: emoji rendered as tofu on hosts without an emoji font; self-hosted Noto Color Emoji (next/font/google) added as --font-sans/--font-mono fallback."
     },
     {
       "id": "F07",
