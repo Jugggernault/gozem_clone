@@ -105,3 +105,11 @@ test("F10/F11: wallet balance, transfer 10 000 to Koffi A.", async ({ page }) =>
   await page.getByRole("button", { name: "Continuer" }).click();
   await expect(page.getByText(/^Envoyer 10\s000\sFCFA à Koffi A\.$/)).toBeVisible();
 });
+
+test("F02/F16: home → assistant books the airport ride", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByText("Que voulez-vous faire ?")).toBeVisible();
+  await page.locator("main").getByRole("link", { name: "✨ Gozem Assistant" }).click();
+  await page.getByRole("button", { name: "Je veux aller à l'aéroport demain à 7h" }).click();
+  await expect(page.getByTestId("assistant-card-ride")).toContainText("Demain 07:00");
+});
