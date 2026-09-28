@@ -46,6 +46,16 @@ test("F01: desktop sidebar + top bar", async ({ page }) => {
   await expect(page).toHaveURL(/\/activity$/);
 });
 
+test("F07–F09: Burger House cart → checkout → order tracking", async ({ page }) => {
+  await page.goto("/food/burger-house");
+  for (const n of ["Classic Burger", "Classic Burger", "Coca-Cola 33 cl", "Coca-Cola 33 cl"]) await page.getByRole("button", { name: `Ajouter ${n}` }).first().click();
+  await expect(page.getByRole("button", { name: /Voir le panier/ })).toContainText(/9\s000/);
+  await page.goto("/food/checkout");
+  await page.getByRole("button", { name: /Payer/ }).click();
+  await expect(page.getByText("Paiement réussi ✓").first()).toBeVisible();
+  await expect(page.getByTestId("order-timeline")).toBeVisible({ timeout: 5000 });
+});
+
 test("F01: account shows profile and resets the demo", async ({ page }) => {
   await page.goto("/account");
   await expect(page.getByText("Abed-Négo")).toBeVisible();
