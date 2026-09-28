@@ -16,7 +16,7 @@ test("F01: login splash → Continuer → home", async ({ page }) => {
   await page.goto("/login");
   await page.getByRole("link", { name: "Continuer" }).click();
   await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByText("Bonjour Abed")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Bonjour Abed/ })).toBeVisible();
 });
 
 test("F01: mobile bottom nav reaches all tabs, back works", async ({ page }) => {
@@ -64,4 +64,12 @@ test("F01: account shows profile and resets the demo", async ({ page }) => {
   await expect(page.getByText("Démo réinitialisée ✓")).toBeVisible();
   await expect(page.getByText("125 500 FCFA").first()).toBeVisible();
   await expect(page.getByText("2 450 pts").first()).toBeVisible();
+});
+
+test("F02/F16: home → assistant books the airport ride", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByText("Que voulez-vous faire ?")).toBeVisible();
+  await page.locator("main").getByRole("link", { name: "✨ Gozem Assistant" }).click();
+  await page.getByRole("button", { name: "Je veux aller à l'aéroport demain à 7h" }).click();
+  await expect(page.getByTestId("assistant-card-ride")).toContainText("Demain 07:00");
 });
